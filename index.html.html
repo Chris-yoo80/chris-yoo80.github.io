@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SupplyNest</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0F2C6F;
+    --blue: #1A56DB;
+    --blue-mid: #2563EB;
+    --blue-light: #93C5FD;
+    --blue-pale: #EEF4FB;
+    --text: #1A1A2E;
+    --text-muted: #5A7BA8;
+    --border: #DCE6F4;
+    --white: #FFFFFF;
+    --green: #16A34A;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Sans KR', 'DM Sans', sans-serif;
+    color: var(--text);
+    background: var(--white);
+    line-height: 1.7;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%; height: 64px;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 20px; font-weight: 700;
+    color: var(--navy);
+    display: flex; align-items: center; gap: 8px;
+    text-decoration: none;
+  }
+
+  .nav-logo span { color: var(--blue); }
+
+  .nav-links { display: flex; gap: 32px; align-items: center; }
+
+  .nav-links a {
+    font-size: 14px; font-weight: 500;
+    color: var(--text-muted); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--navy); }
+
+  .nav-cta {
+    background: var(--navy) !important;
+    color: var(--white) !important;
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-weight: 600 !important;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--blue) !important; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 120px 5% 80px;
+    background: linear-gradient(160deg, #F8FAFF 0%, #EEF4FB 60%, #DBEAFE 100%);
+    position: relative; overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute; top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(26,86,219,0.08) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  .hero-inner { max-width: 760px; position: relative; z-index: 1; }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: white; border: 1px solid var(--border);
+    padding: 6px 14px; border-radius: 20px;
+    font-size: 12px; font-weight: 600; color: var(--blue);
+    margin-bottom: 28px;
+    box-shadow: 0 2px 8px rgba(26,86,219,0.08);
+  }
+
+  .hero-badge-dot {
+    width: 6px; height: 6px;
+    background: var(--green); border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .hero h1 {
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 900; line-height: 1.2;
+    color: var(--navy);
+    margin-bottom: 20px;
+    word-break: keep-all;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    background: linear-gradient(135deg, var(--blue), #60A5FA);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    font-size: 17px; color: var(--text-muted);
+    max-width: 580px; margin-bottom: 36px;
+    word-break: keep-all;
+  }
+
+  .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 56px; }
+
+  .btn-primary {
+    background: var(--navy);
+    color: white; padding: 14px 28px;
+    border-radius: 8px; font-weight: 700; font-size: 15px;
+    text-decoration: none;
+    transition: all 0.2s;
+    box-shadow: 0 4px 16px rgba(15,44,111,0.2);
+  }
+  .btn-primary:hover { background: var(--blue); transform: translateY(-1px); }
+
+  .btn-secondary {
+    background: white; color: var(--navy);
+    padding: 14px 28px; border-radius: 8px;
+    font-weight: 600; font-size: 15px;
+    text-decoration: none; border: 1.5px solid var(--border);
+    transition: all 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--blue); color: var(--blue); }
+
+  .hero-stats {
+    display: flex; gap: 40px; flex-wrap: wrap;
+    padding-top: 32px; border-top: 1px solid var(--border);
+  }
+
+  .stat-item { }
+  .stat-num {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 28px; font-weight: 700; color: var(--navy);
+    line-height: 1;
+  }
+  .stat-label { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+  /* SECTIONS */
+  section { padding: 96px 5%; }
+
+  .section-label {
+    font-size: 12px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--blue);
+    margin-bottom: 12px;
+  }
+
+  h2 {
+    font-size: clamp(24px, 3.5vw, 36px);
+    font-weight: 800; color: var(--navy);
+    line-height: 1.3; margin-bottom: 16px;
+    word-break: keep-all;
+  }
+
+  .section-desc {
+    font-size: 16px; color: var(--text-muted);
+    max-width: 560px; margin-bottom: 56px;
+    word-break: keep-all;
+  }
+
+  /* PRODUCT */
+  #product { background: white; }
+
+  .product-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 24px; margin-bottom: 48px;
+  }
+
+  .feature-card {
+    background: var(--blue-pale);
+    border-radius: 12px; padding: 28px;
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+  }
+  .feature-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(26,86,219,0.08); }
+
+  .feature-icon {
+    font-size: 28px; margin-bottom: 14px;
+  }
+
+  .feature-card h3 {
+    font-size: 16px; font-weight: 700; color: var(--navy);
+    margin-bottom: 8px;
+  }
+
+  .feature-card p {
+    font-size: 14px; color: var(--text-muted); line-height: 1.6;
+  }
+
+  .demo-box {
+    background: var(--navy);
+    border-radius: 16px; padding: 40px;
+    color: white; margin-top: 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 32px; flex-wrap: wrap;
+  }
+
+  .demo-box h3 { font-size: 22px; font-weight: 700; margin-bottom: 8px; }
+  .demo-box p { font-size: 14px; color: var(--blue-light); max-width: 480px; }
+
+  .btn-demo {
+    background: white; color: var(--navy);
+    padding: 12px 24px; border-radius: 8px;
+    font-weight: 700; font-size: 14px;
+    text-decoration: none; white-space: nowrap;
+    transition: all 0.2s; flex-shrink: 0;
+  }
+  .btn-demo:hover { background: var(--blue-light); }
+
+  /* PROOF */
+  #proof { background: var(--blue-pale); }
+
+  .proof-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .proof-card {
+    background: white; border-radius: 12px; padding: 32px;
+    border: 1px solid var(--border);
+    text-align: center;
+  }
+
+  .proof-num {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 44px; font-weight: 700; color: var(--blue);
+    line-height: 1; margin-bottom: 8px;
+  }
+
+  .proof-card h3 { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+  .proof-card p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+  /* ROADMAP */
+  #roadmap { background: white; }
+
+  .roadmap-list { display: flex; flex-direction: column; gap: 16px; max-width: 720px; }
+
+  .roadmap-item {
+    display: flex; gap: 20px; align-items: flex-start;
+    padding: 24px; border-radius: 12px;
+    border: 1.5px solid var(--border);
+    background: white; transition: all 0.2s;
+  }
+
+  .roadmap-item.active {
+    border-color: var(--blue);
+    background: var(--blue-pale);
+  }
+
+  .roadmap-step {
+    width: 36px; height: 36px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 13px; flex-shrink: 0;
+    background: var(--border); color: var(--text-muted);
+  }
+
+  .roadmap-item.active .roadmap-step {
+    background: var(--blue); color: white;
+  }
+
+  .roadmap-content h3 { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .roadmap-content p { font-size: 13px; color: var(--text-muted); }
+
+  .roadmap-badge {
+    margin-left: auto; flex-shrink: 0;
+    font-size: 11px; font-weight: 700;
+    padding: 4px 10px; border-radius: 20px;
+  }
+  .badge-done { background: #DCFCE7; color: #16A34A; }
+  .badge-next { background: #FEF3C7; color: #D97706; }
+  .badge-future { background: #F1F5F9; color: #64748B; }
+
+  /* ABOUT */
+  #about { background: var(--blue-pale); }
+
+  .about-inner { max-width: 640px; }
+
+  .about-inner p {
+    font-size: 16px; color: #374151; line-height: 1.8;
+    margin-bottom: 20px;
+  }
+
+  .about-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+
+  .tag {
+    background: white; border: 1px solid var(--border);
+    padding: 6px 14px; border-radius: 20px;
+    font-size: 13px; font-weight: 500; color: var(--navy);
+  }
+
+  /* CONTACT */
+  #contact { background: white; }
+
+  .contact-inner { max-width: 520px; }
+
+  .form-group { margin-bottom: 20px; }
+
+  .form-group label {
+    display: block; font-size: 13px; font-weight: 600;
+    color: var(--navy); margin-bottom: 6px;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    width: 100%; padding: 12px 16px;
+    border: 1.5px solid var(--border); border-radius: 8px;
+    font-size: 14px; font-family: inherit;
+    color: var(--text); background: white;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus { border-color: var(--blue); }
+
+  .form-group textarea { resize: vertical; min-height: 120px; }
+
+  .form-note {
+    font-size: 13px; color: var(--text-muted); margin-top: 16px;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--navy); color: var(--blue-light);
+    padding: 32px 5%;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 13px; flex-wrap: wrap; gap: 12px;
+  }
+
+  .footer-logo { color: white; font-weight: 700; font-size: 16px; }
+  .footer-right { display: flex; gap: 24px; }
+  .footer-right a { color: var(--blue-light); text-decoration: none; }
+  .footer-right a:hover { color: white; }
+
+  @media (max-width: 768px) {
+    .product-grid { grid-template-columns: 1fr; }
+    .proof-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .hero-stats { gap: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">🪺 Supply<span>Nest</span></a>
+  <div class="nav-links">
+    <a href="#product">제품</a>
+    <a href="#proof">검증 결과</a>
+    <a href="#roadmap">로드맵</a>
+    <a href="#about">소개</a>
+    <a href="#contact" class="nav-cta">데모 요청</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <div class="hero-badge-dot"></div>
+      실 데이터 파일럿 진행 중
+    </div>
+    <h1>공급망을 하나로 —<br><em>중소·중견 제조기업</em>을 위한<br>AI 기반 SCM 플랫폼</h1>
+    <p class="hero-sub">
+      생산계획 업로드만으로 AI가 자재 부족·발주 필요일을 자동 산출하고,
+      협력사 납기 협업까지 하나의 플랫폼에서 관리합니다.
+    </p>
+    <div class="hero-ctas">
+      <a href="https://mrp-simulation-wwgj28p9hktec32issmjlm.streamlit.app/" target="_blank" class="btn-primary">데모 체험하기 →</a>
+      <a href="#product" class="btn-secondary">제품 살펴보기</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">15%</div>
+        <div class="stat-label">재고 절감</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">80%↑</div>
+        <div class="stat-label">업무시간 단축</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">7,500만</div>
+        <div class="stat-label">연간 재고금융비용 절감 (100억 기업 기준)</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUCT -->
+<section id="product">
+  <p class="section-label">Product</p>
+  <h2>담당자가 판단에만 집중할 수 있도록</h2>
+  <p class="section-desc">
+    엑셀·CSV 파일 업로드만으로 즉시 시작할 수 있는 경량형 AI SCM 솔루션입니다.
+    기존 ERP 없이도, IT 담당자 없이도 도입 가능합니다.
+  </p>
+
+  <div class="product-grid">
+    <div class="feature-card">
+      <div class="feature-icon">🤖</div>
+      <h3>AI 자재소요 예측</h3>
+      <p>생산계획·BOM 업로드 시 AI Agent가 자재별 소요량, 부족 발생일, 발주 필요일을 자동 산출합니다.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📊</div>
+      <h3>재고정책 AI 추천</h3>
+      <p>실 프로젝트 컨설팅 결과를 AI 로직으로 시스템화 — 자재별 최적 안전재고·발주주기·최소발주수량을 자동 추천합니다.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🤝</div>
+      <h3>Supplier Portal</h3>
+      <p>협력사가 포털에서 납품 가능일·수량·지연 사유를 직접 입력. 양측이 동일한 데이터 기준으로 납기를 협업합니다.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📦</div>
+      <h3>창고 운영 관리 (WMS)</h3>
+      <p>바코드·QR 스캔으로 실물 재고와 시스템 재고를 일치시켜 자재 부족 예측 정확도를 높입니다.</p>
+    </div>
+  </div>
+
+  <div class="demo-box">
+    <div>
+      <h3>지금 바로 데모를 체험해보세요</h3>
+      <p>실제 자재소요 시뮬레이션 데모 서비스가 운영 중입니다. 엑셀 파일을 업로드하면 AI가 즉시 분석합니다.</p>
+    </div>
+    <a href="https://mrp-simulation-wwgj28p9hktec32issmjlm.streamlit.app/" target="_blank" class="btn-demo">데모 체험 →</a>
+  </div>
+</section>
+
+<!-- PROOF -->
+<section id="proof">
+  <p class="section-label">검증 결과</p>
+  <h2>아이디어가 아닌, 검증된 결과입니다</h2>
+  <p class="section-desc">실 제조기업 데이터 기반 파일럿을 통해 확인한 수치입니다.</p>
+
+  <div class="proof-grid">
+    <div class="proof-card">
+      <div class="proof-num">15%</div>
+      <h3>재고 절감</h3>
+      <p>과잉재고 해소 및 적정 안전재고 유지를 통한 실증 결과</p>
+    </div>
+    <div class="proof-card">
+      <div class="proof-num">80%↑</div>
+      <h3>업무시간 단축</h3>
+      <p>생산계획 변경 시 수작업 2~3시간 → 수분 내 즉시 판단</p>
+    </div>
+    <div class="proof-card">
+      <div class="proof-num">7,500만</div>
+      <h3>연간 재고금융비용 절감</h3>
+      <p>월 평균 재고 100억 기업 기준, 연리 5% 적용 시 절감 효과</p>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section id="roadmap">
+  <p class="section-label">Roadmap</p>
+  <h2>단계별 확장 로드맵</h2>
+  <p class="section-desc">자재소요 예측에서 시작하여 공급망 플랫폼으로 확장합니다.</p>
+
+  <div class="roadmap-list">
+    <div class="roadmap-item active">
+      <div class="roadmap-step">1</div>
+      <div class="roadmap-content">
+        <h3>AI 자재소요 예측 + 재고정책 AI 추천 + 경량 재고 관리</h3>
+        <p>실 제조기업 데이터 기반 검증 완료 — 재고 15% 절감, 업무시간 80% 단축 확인</p>
+      </div>
+      <div class="roadmap-badge badge-done">✅ 완료</div>
+    </div>
+    <div class="roadmap-item">
+      <div class="roadmap-step">2</div>
+      <div class="roadmap-content">
+        <h3>Supplier Portal + WMS 고도화</h3>
+        <p>협력사 납기 협업 · 창고 운영 관리 · 바코드 연계 · 데이터 축적 기반 AI 고도화</p>
+      </div>
+      <div class="roadmap-badge badge-next">개발 중</div>
+    </div>
+    <div class="roadmap-item">
+      <div class="roadmap-step">3</div>
+      <div class="roadmap-content">
+        <h3>공급망 플랫폼</h3>
+        <p>협력사 DB 표준화 · 국내외 바이어 AI 매칭 · 산업별 공급망 네트워크</p>
+      </div>
+      <div class="roadmap-badge badge-future">장기</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <p class="section-label">About</p>
+  <h2>만든 사람</h2>
+  <div class="about-inner">
+    <p>
+      SupplyNest는 물류·생산·구매 영역의 실무 경험을 바탕으로, 제조 현장에서 반복적으로 목격한
+      문제를 직접 해결하기 위해 만들어졌습니다.
+    </p>
+    <p>
+      생산계획, BOM, 자재소요, 구매 발주, 협력사 납기, 재고·창고 운영이 분리될 경우 공급망 전체
+      관점의 의사결정이 어렵다는 점을 확인하고, 핵심 로직을 직접 설계·개발하여 실 제조 데이터로
+      검증했습니다.
+    </p>
+    <p>
+      현재 개인 창업 준비 단계이며, 서비스명은 SupplyNest로 정했습니다.
+      법인 설립 시 동일 명칭으로 운영할 예정입니다.
+    </p>
+    <div class="about-tags">
+      <span class="tag">제조 SCM 20년 실무</span>
+      <span class="tag">자재소요 시뮬레이션 직접 설계·검증</span>
+      <span class="tag">중국어 능통</span>
+      <span class="tag">글로벌 공급망 협업</span>
+      <span class="tag">현지 PI 프로젝트 수행</span>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="section-label">Contact</p>
+  <h2>문의하기</h2>
+  <p class="section-desc">데모 요청, 파일럿 협의, 협업 제안은 아래로 연락주세요.</p>
+
+  <div class="contact-inner">
+    <div class="form-group">
+      <label>이름</label>
+      <input type="text" placeholder="홍길동">
+    </div>
+    <div class="form-group">
+      <label>이메일</label>
+      <input type="email" placeholder="email@company.com">
+    </div>
+    <div class="form-group">
+      <label>소속 / 회사명</label>
+      <input type="text" placeholder="회사명 (선택)">
+    </div>
+    <div class="form-group">
+      <label>문의 내용</label>
+      <textarea placeholder="데모 요청, 파일럿 문의, 협업 제안 등 자유롭게 작성해주세요."></textarea>
+    </div>
+    <a href="mailto:ys12142000@gmail.com" class="btn-primary" style="display:inline-block;">메시지 보내기</a>
+    <p class="form-note">또는 직접 연락: ys12142000@gmail.com</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">🪺 SupplyNest</div>
+  <div style="font-size:13px;">공급망이 모이는 둥지 — AI 기반 제조 공급망 플랫폼</div>
+  <div class="footer-right">
+    <a href="https://mrp-simulation-wwgj28p9hktec32issmjlm.streamlit.app/" target="_blank">데모</a>
+    <a href="#contact">문의</a>
+  </div>
+</footer>
+
+</body>
+</html>
